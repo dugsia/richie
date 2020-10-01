@@ -168,7 +168,7 @@ msgstr ""
 #. Log out
 #: i18n/js/components/UserLogin/index.json
 msgid "Log out"
-msgstr "Cerrar sesión"
+msgstr ""
 
 #. [components.SearchFilterGroupModal.moreOptionsButton] - Test for the button to see more filter values than the top N that appear by default.
 #. defaultMessage is:
