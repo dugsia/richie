@@ -11,8 +11,15 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 - Improve sanitizing of input text on CKEditor plugin
-- Replace course-detail__run-cta in fragment_course_run template by
-  course-run-enrollment__cta
+- Replace course-detail**run-cta in fragment_course_run template by
+  course-run-enrollment**cta
+
+### Changed
+
+- Add AUTHENTICATION_BACKEND setting
+- Refactor the optional LMS connector to focus on OpenEdX and use its session
+  directly through CORS requests from the frontend.
+- Delegate course run enrollment logic to frontend.
 
 ## [2.0.0-beta.15] - 2020-10-06
 

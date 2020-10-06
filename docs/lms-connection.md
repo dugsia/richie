@@ -44,7 +44,7 @@ For OpenEdx Dogwood, configure the `EDX_OIDC` backend in your project's settings
 SOCIAL_AUTH_EDX_OIDC_KEY = "social-id"
 SOCIAL_AUTH_EDX_OIDC_SECRET = "fakesecret"
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = "fakekey"
-SOCIAL_AUTH_EDX_OIDC_ENDPOINT = "https://edx:8073/oauth2
+SOCIAL_AUTH_EDX_OIDC_ENDPOINT = "http://edx.local.dev:8073/oauth2"
 ```
 
 ### OpenEdx Eucalyptus to Hawthorn
@@ -54,7 +54,7 @@ From OpenEdx Eucalyptus up to Hawthorn, configure the `EDX_OAUTH2` backend in yo
 ```python
 SOCIAL_AUTH_EDX_OAUTH2_KEY = "social-id"
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = "fakesecret"
-SOCIAL_AUTH_EDX_OAUTH2_ENDPOINT = "https://edx:8073/oauth2
+SOCIAL_AUTH_EDX_OAUTH2_ENDPOINT = "http://edx.local.dev:8073/oauth2"
 ```
 
 for other LMSes, note that any other authentication backend may be used, like those available from
@@ -62,11 +62,10 @@ for other LMSes, note that any other authentication backend may be used, like th
 Additional backends, specific to a third party LMS, can be added to `richie` upon request or by
 submitting a Pull Request.
 
-
 ### API bridge
 
 The `LMSHandler` utility class acts as a proxy that routes queries to the correct LMS backend,
-based on a regex match on the URL of the course.
+based on a regex match on the URL of the course. The first LMS_Backend will be used to get user information.
 
 Several LMS backends can be configured in order of priority by adding the `LMS_BACKENDS` setting
 to your project:
@@ -76,18 +75,18 @@ LMS_BACKENDS=[
     {
         "BACKEND": "richie.apps.courses.lms.edx.TokenEdXLMSBackend",
         "SELECTOR_REGEX": r".*lms-example1.org.*",
+        "JS_SELECTOR_REGEX": r".*lms-example1.org.*",
         "BASE_URL": "https://www.lms-example1.org",
-        "COURSE_REGEX": r"^.*/courses/(?P<course_id>.*)/info$",
-        "API_TOKEN": "fakesecret1",
+        "JS_COURSE_REGEX": r"^.*/courses/(?<course_id>.*)/info$",
     },
     {
         "BACKEND": "richie.apps.courses.lms.edx.TokenEdXLMSBackend",
         "SELECTOR_REGEX": r".*lms-example2.org.*",
+        "JS_SELECTOR_REGEX": r".*lms-example2.org.*",
         "BASE_URL": "https://www.lms-example2.org",
-        "COURSE_REGEX": r"^.*/course/(?P<course_id>[0-9]*)$",
-        "API_TOKEN": "fakesecret2",
+        "JS_COURSE_REGEX": r"^.*/course/(?<course_id>[0-9]*)$",
     },
-] 
+]
 ```
 
 For information about how to generate an API access on your OpenEdx instance, refer to the

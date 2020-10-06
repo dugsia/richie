@@ -361,7 +361,7 @@ def create_demo_site():
                 page_in_navigation=False,
                 page_languages=["en", "fr"],
                 page_parent=course.extended_object,
-                resource_link="http://edx:8073/courses/course-v1:edX+DemoX+Demo_Course/info",
+                resource_link="http://edx.local.dev:8073/courses/course-v1:edX+DemoX+Demo_Course/info",  # noqa pylint: disable=line-too-long
                 should_publish=True,
             )
 
