@@ -1,0 +1,12 @@
+# Social Auth 
+DJANGO_SOCIAL_AUTH_EDX_OAUTH2_ENDPOINT=http://edx.local.dev:8073/oauth2
+DJANGO_SOCIAL_AUTH_EDX_OIDC_ENDPOINT=http://edx.local.dev:8073/oauth2
+
+# Authentication Backend
+AUTHENTICATION_BASE_URL=http://edx.local.dev:8073
+AUTHENTICATION_BACKEND=richie.apps.courses.lms.edx.TokenEdXLMSBackend
+
+# LMS Backend
+EDX_BACKEND=richie.apps.courses.lms.base.BaseLMSBackend
+EDX_JS_COURSE_REGEX=^.*/courses/(?<course_id>.*)/info$
+EDX_BASE_URL=http://edx.local.dev:8073

@@ -43,6 +43,7 @@ DOCKER_UID           = $(shell id -u)
 DOCKER_GID           = $(shell id -g)
 DOCKER_USER          = $(DOCKER_UID):$(DOCKER_GID)
 COMPOSE              = DOCKER_USER=$(DOCKER_USER) DB_HOST=$(DB_HOST) DB_PORT=$(DB_PORT) docker-compose
+COMPOSE_SSL          = NGINX_CONF=ssl DEV_ENV_FILE=dev-ssl $(COMPOSE)
 COMPOSE_RUN          = $(COMPOSE) run --rm
 COMPOSE_EXEC         = $(COMPOSE) exec
 COMPOSE_EXEC_APP     = $(COMPOSE_EXEC) app
@@ -65,6 +66,7 @@ YARN                 = $(COMPOSE_RUN_NODE) yarn
 MANAGE               = $(COMPOSE_RUN_APP) python sandbox/manage.py
 WAIT_DB              = $(COMPOSE_RUN) dockerize -wait tcp://$(DB_HOST):$(DB_PORT) -timeout 60s
 WAIT_ES              = $(COMPOSE_RUN) dockerize -wait tcp://elasticsearch:9200 -timeout 60s
+WAIT_APP             = $(COMPOSE_RUN) dockerize -wait tcp://app:8000 -timeout 60s
 
 # ==============================================================================
 # RULES
@@ -99,11 +101,20 @@ logs: ## display app logs (follow mode)
 .PHONY: logs
 
 run: ## start the development server
-	@$(COMPOSE) up -d app
+	@$(COMPOSE) up -d nginx
 	@echo "Wait for services to be up..."
 	@$(WAIT_DB)
 	@$(WAIT_ES)
+	@$(WAIT_APP)
 .PHONY: run
+
+run-ssl: ## start the development server over TLS
+	@$(COMPOSE_SSL) up -d nginx
+	@echo "Wait for services to be up..."
+	@$(WAIT_DB)
+	@$(WAIT_ES)
+	@$(WAIT_APP)
+.PHONY: run-ssl
 
 status: ## an alias for "docker-compose ps"
 	@$(COMPOSE) ps
